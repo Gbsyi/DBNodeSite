@@ -1,0 +1,18 @@
+.title{
+    padding: 10px;
+    margin: 0 auto;
+    font-weight: 500;
+}
+.content{
+    padding: 10px;
+    margin: none;
+}
+.tab{
+    display: flex;
+}
+.left{
+    width: 80%;
+}
+.user-id{
+    font-weight: 600;
+}

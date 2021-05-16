@@ -4,7 +4,14 @@ body{
     background: #f7f7f7;
 	font-family: "Montserrat";
 }
-
+/*Правая панель*/
+.right-panel{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 88%;
+}
+/*Левая панель*/
 .left-panel{
     display: flex;
     flex-direction: column;
@@ -13,10 +20,6 @@ body{
     width: 12%;
     color: white;
 }
-.right-panel{
-    height: 100vh;
-    width: 88%;
-}
 .top{
     justify-content: center;
     display: flex;
@@ -24,15 +27,15 @@ body{
     height: max-content;
     padding: 1rem;
 }
+/*Меню*/
 .menu{
     display: flex;
     flex-direction: column;
     text-decoration: none;
 }
-a{
-    text-decoration: none;
-}
 .menuitem{
+    font-weight: 500;
+    position: relative;
     width: 100%;
     margin: auto;
 	align-items: center;
@@ -40,7 +43,39 @@ a{
     justify-content: center;
     height: 50px;
     border-top: solid 1px rgba(255, 255, 255,0.5);
+    z-index: 1;
 }
+/*Кнопки меню*/
+a{
+    text-decoration: none;
+    color: white;
+}
+a:hover{
+    color: black;
+}
+.menuitem::after{
+    display:block;
+    content:'.';
+    color:transparent;
+    margin:auto;
+    background-color: white;
+    width:0;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:-1;
+  }
+  .menuitem:hover{
+    color:black;
+  }
+  .menuitem:hover::after{
+    width:100%;
+  }
+  .menuitem,.menuitem::after{
+    transition:.5s;
+  }
+/*Нижняя часть*/
 .user{
     display: flex;
     justify-content: center;

@@ -6,7 +6,8 @@ const cookieParser = require("cookie-parser");
 const e = require('express');
 const { signedCookie } = require('cookie-parser');
 const app = express();
-app.use(express.static(__dirname + '/public'));
+var path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser('secret'));
 
 const urlencodedParser = bodyParser.urlencoded({extended:false});
@@ -117,12 +118,15 @@ app.get("/administrator/users", function(req,res){
     if(userId != undefined){
         pool.query("select * from users where id=?",[userId],function(err,data){
             if(userLogin == data[0].user_login && userPassword == data[0].user_password){
-                res.render("adminPanel/users.hbs",{
-                    user_id: userId,
-                    user_login: userLogin,
-                    user_password: userPassword
+                pool.query("select * from users", function(err,selectData){
+                    if(err) throw err;
+                    res.render("adminPanel/users.hbs",{
+                        users:selectData,
+                        user_id: userId,
+                        user_login: userLogin,
+                        user_password: userPassword
+                    });
                 });
-                
             }
         });
     }
@@ -162,9 +166,7 @@ app.post("/administratorLogin", urlencodedParser, function(req,res){
             res.cookie('userId',userId,{
                 secure:true,
                 signed:true
-            })
-            console.log("Cookie signed: ",req.signedCookies['login'],req.signedCookies['password'],req.signedCookies['userId']);
-            
+            })            
             res.redirect("/administrator");
         }
         else{
@@ -175,7 +177,16 @@ app.post("/administratorLogin", urlencodedParser, function(req,res){
     });
     
 });
-
+app.post('/administrator/users', urlencodedParser, function(req,res){
+    if(!req.body)   return res.sendStatus(400);
+    let login = req.body.newUserLogin;
+    let password = req.body.newUserPassword;
+    let userId;
+    pool.query("INSERT INTO `users`( `user_login`, `user_password`) VALUES ('"+login+"','"+password+"')", function(err,result){
+        if(err) throw err;
+        res.redirect('/administrator/users');
+    })
+});
 //LISTEN
 app.listen(8080, function() {
     console.log("Сервер запущен.");
