@@ -76,11 +76,21 @@ a:hover{
     transition:.5s;
   }
 /*Нижняя часть*/
-.user{
+.user-link{
     display: flex;
+    position: relative;
     justify-content: center;
-    padding: 1rem;
+    padding: 1.5rem;
 }
 .empty{
     height: 100%;
+}
+.user-link{
+    color:white;
+}
+.user-link:hover{
+    color: white;
+}
+.dropdown-toggle::after{
+    display: none;
 }
