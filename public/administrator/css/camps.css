@@ -1,0 +1,45 @@
+.btn-anim{
+	position: relative;
+	border-radius: .25rem;
+	border:1px solid #e22660;
+	box-shadow: 0 0 0 2px #E2547E;
+}
+
+
+.btn-anim:hover{
+  color: #FFFFFF;
+}
+.btn-anim::after{
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  width: 0px;
+  height: 100%;
+  content: '.';
+  color: transparent;
+  background: #e22660;
+  visibility: none;
+  z-index: -1;
+}
+.btn-anim:hover:after{
+  visibility: visible;
+  width: 100%;
+}
+.btn-anim,
+.btn-anim:after,
+.btn-anim:before {
+  transition: all .5s;
+}
+.content{
+    display: flex;
+    flex-direction: ro;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.card{
+    margin:2rem;
+}

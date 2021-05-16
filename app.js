@@ -111,30 +111,7 @@ app.get("/administrator", function(req,res){
     }
 
 });
-app.get("/administrator/users", function(req,res){
-    userId = req.signedCookies['userId'];
-    userLogin = req.signedCookies['login'];
-    userPassword = req.signedCookies['password'];
-    if(userId != undefined){
-        pool.query("select * from users where id=?",[userId],function(err,data){
-            if(userLogin == data[0].user_login && userPassword == data[0].user_password){
-                pool.query("select * from users", function(err,selectData){
-                    if(err) throw err;
-                    res.render("adminPanel/users.hbs",{
-                        users:selectData,
-                        user_id: userId,
-                        user_login: userLogin,
-                        user_password: userPassword
-                    });
-                });
-            }
-        });
-    }
-    else
-    {
-        res.redirect("/administratorLogin");
-    }
-});
+
 app.post("/administratorLogin", urlencodedParser, function(req,res){
     if(!req.body) return res.sendStatus(400);
     let login = req.body.login;
@@ -177,6 +154,32 @@ app.post("/administratorLogin", urlencodedParser, function(req,res){
     });
     
 });
+
+//USERS
+app.get("/administrator/users", function(req,res){
+    userId = req.signedCookies['userId'];
+    userLogin = req.signedCookies['login'];
+    userPassword = req.signedCookies['password'];
+    if(userId != undefined){
+        pool.query("select * from users where id=?",[userId],function(err,data){
+            if(userLogin == data[0].user_login && userPassword == data[0].user_password){
+                pool.query("select * from users", function(err,selectData){
+                    if(err) throw err;
+                    res.render("adminPanel/users.hbs",{
+                        users:selectData,
+                        user_id: userId,
+                        user_login: userLogin,
+                        user_password: userPassword
+                    });
+                });
+            }
+        });
+    }
+    else
+    {
+        res.redirect("/administratorLogin");
+    }
+});
 app.post('/administrator/users', urlencodedParser, function(req,res){
     if(!req.body)   return res.sendStatus(400);
     let login = req.body.newUserLogin;
@@ -186,6 +189,34 @@ app.post('/administrator/users', urlencodedParser, function(req,res){
         if(err) throw err;
         res.redirect('/administrator/users');
     })
+});
+
+//CAMPS
+app.get('/administrator/camps',function(req,res){
+    userId = req.signedCookies['userId'];
+    userLogin = req.signedCookies['login'];
+    userPassword = req.signedCookies['password'];
+    if(userId != undefined){
+        pool.query("select * from users where id=?",[userId],function(err,data){
+            if(userLogin == data[0].user_login && userPassword == data[0].user_password){
+                //Загрузка страницы 
+                pool.query('select * from camps',function(err,campsData){
+                    if(err) throw err;
+                    res.render("adminPanel/camps.hbs",{
+                        camps: campsData,
+                        user_id: userId,
+                        user_login: userLogin,
+                        user_password: userPassword
+                    });
+                })
+                
+            }
+        });
+    }
+    else
+    {
+        res.redirect("/administratorLogin");
+    }
 });
 //LISTEN
 app.listen(8080, function() {

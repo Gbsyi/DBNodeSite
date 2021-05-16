@@ -11,8 +11,13 @@ body{
     height: 100vh;
     width: 88%;
 }
+.left{
+    width: 12%;
+    display: block;
+}
 /*Левая панель*/
 .left-panel{
+    position: fixed;
     display: flex;
     flex-direction: column;
     background-color: steelblue;
@@ -25,7 +30,7 @@ body{
     display: flex;
     width: 100%;
     height: max-content;
-    padding: 1rem;
+    padding: 1.7rem;
 }
 /*Меню*/
 .menu{
@@ -93,4 +98,10 @@ a:hover{
 }
 .dropdown-toggle::after{
     display: none;
+}
+
+.title{
+    padding: 10px;
+    margin: 0 auto;
+    font-weight: 500;
 }

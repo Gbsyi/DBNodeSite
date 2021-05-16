@@ -17,8 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
-	<link rel="stylesheet" type="text/css" href="/administrator/css/admin.css">
-	
+	<link rel="stylesheet" type="text/css" href="css/admin.css">
+	<link rel="stylesheet" type="text/css" href="css/camps.css">
  
 </head>
 <body>
@@ -80,4 +80,22 @@
 			</ul>
 		</div>
 	</div>
+    <div class="right-panel">
+        <div class="title"><h3>Лагеря</h3></div>
+        <div class="content">
+            {{#each camps}}
+                <div class="card" style="width: 22rem;">
+                    <img src="{{this.img_path}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+					    <input name="camp_id" value="{{this.id}}" style="display:none;">
+    				    <h5 class="card-title">Имя: {{this.name}}</h5>
+    				    <p class="card-text"><span style="font-weight: 600;">Описание:</span> {{this.description}}</p>
+    				    <div class="city"><span style="font-weight: 600;">Город:</span> {{this.city}}</div>
+    				    <div class="price"><span style="font-weight: 600;">Цена:</span> {{this.price}}руб.</div>
+  				</div>
+                </div>
+            {{/each}}
+        </div>
+        <div class="options"></div>
+    </div>
 </body>
