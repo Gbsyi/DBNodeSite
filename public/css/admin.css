@@ -1,11 +1,17 @@
 body{
     display: flex;
     flex-direction: row;
+    background: #f7f7f7;
+	font-family: "Montserrat";
 }
+
 .left-panel{
+    display: flex;
+    flex-direction: column;
     background-color: steelblue;
     height: 100vh;
     width: 12%;
+    color: white;
 }
 .right-panel{
     height: 100vh;
@@ -16,4 +22,30 @@ body{
     display: flex;
     width: 100%;
     height: max-content;
+    padding: 1rem;
+}
+.menu{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+a{
+    text-decoration: none;
+}
+.menuitem{
+    width: 100%;
+    margin: auto;
+	align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    border-top: solid 1px rgba(255, 255, 255,0.5);
+}
+.user{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+.empty{
+    height: 100%;
 }

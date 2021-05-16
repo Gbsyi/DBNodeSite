@@ -110,31 +110,27 @@ app.get("/administrator", function(req,res){
     }
 
 });
-/*function authorize(login,password){
-    founded = false;
-    pool.execute("SELECT * FROM users", function(err,data){
-        console.log("Считал данные из бд")
-        if(err){
-            console.log("Error: " + err.message);
-        }
-        data.forEach(element => {
-            console.log(login, "?", element.user_login,"    ",password,"?", element.user_password);
-            if(element.user_password == password && element.user_login == login){
-                founded = true;
-            }             
+app.get("/administrator/users", function(req,res){
+    userId = req.signedCookies['userId'];
+    userLogin = req.signedCookies['login'];
+    userPassword = req.signedCookies['password'];
+    if(userId != undefined){
+        pool.query("select * from users where id=?",[userId],function(err,data){
+            if(userLogin == data[0].user_login && userPassword == data[0].user_password){
+                res.render("adminPanel/users.hbs",{
+                    user_id: userId,
+                    user_login: userLogin,
+                    user_password: userPassword
+                });
+                
+            }
         });
-        if(founded){
-            console.log("Вошёл!");
-            return true;
-        }
-        else{
-            console.log("Не вошёл!");
-            return false;
-        }
-    })
-    
-    
-}*/
+    }
+    else
+    {
+        res.redirect("/administratorLogin");
+    }
+});
 app.post("/administratorLogin", urlencodedParser, function(req,res){
     if(!req.body) return res.sendStatus(400);
     let login = req.body.login;
@@ -179,15 +175,7 @@ app.post("/administratorLogin", urlencodedParser, function(req,res){
     });
     
 });
-//LOGIN
-/*passport.use(new LocalStrategy(
-    function(username,password,done){
-        findUser(username, function(err,user){
-            pool.query()
-        });
-    }
-));
-*/
+
 //LISTEN
 app.listen(8080, function() {
     console.log("Сервер запущен.");
