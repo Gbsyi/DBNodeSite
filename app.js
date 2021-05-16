@@ -86,31 +86,6 @@ app.get("/camp-page", function(req,res) {
 
 //ADMIN
 app.get("/administratorLogin", function(req,res){
-    /*let login = req.cookies
-    pool.query("SELECT * FROM users", function(err,data){
-        console.log("Считал данные из бд")
-        if(err){
-            console.log("Error: " + err.message);
-        }
-        data.forEach(element => {
-            console.log(login, "?", element.user_login,"    ",password,"?", element.user_password);
-            if(element.user_password == password && element.user_login == login){
-                founded = true;
-            }             
-        });
-        if(founded){
-            res.cookie('login',login, {
-                secure: true
-            });
-            res.cookie('password', password,{
-                secure:true
-            });
-            res.redirect("/administratorMenu");
-        }
-        else{
-            res.redirect("/administrator");
-        }
-    });*/
     res.render("adminPanel/administratorLogin.hbs");
 });
 app.get("/administrator", function(req,res){
