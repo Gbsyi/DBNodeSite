@@ -1,0 +1,15 @@
+.faqCat{
+    font-size: 29px;
+    margin-bottom: 20px;
+}
+.faqCat:before{
+    padding-left: 1px;
+    margin-right: 4px;
+    top: 0;
+    bottom: 0;
+    left: -1.5em;
+    width: 1.875em;
+    background: #e22660;
+    content: " ";
+
+}

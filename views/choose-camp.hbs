@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Выбрать лагерь</title>
+
+	<!--Meta-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--SVG-->
+	<svg  xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" height='100' width='100' viewBox='0 0 100 100'></svg>
+	
+	<!--Scripts-->
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/loadCamps.js"></script>
+	<script type="text/javascript" src="js/search.js"></script>
+
+	<!--Bootstrap-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+	
+	<!--Links-->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/camp.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+</head>
+<body>
+	<!--Header-->
+		
+	<div class="header">
+		<div class="logo"><a href="/"><img src="img/logo.svg" alt="logo" style="width: auto; height: 40px;"></a></div>
+		<div class="menu">
+			<a class="menuitem" href="/about">О нас</a>
+			<a href="/choose-camp" class="menuitem">Выбрать лагерь</a>
+			<a href="#" class="menuitem">Отзывы о лагерях</a>
+			<a href="/contacts" class="menuitem">Контакты</a>
+		</div>
+		<form class="d-flex">
+        	<input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
+        	<button class="btn btn-anim" type="submit">Найти лагерь</button>
+      	</form>
+	</div>
+
+		<!--Content-->
+	<div class="content">
+		<div class="pageTitle">Выбрать лагерь</div>
+		<div class="about">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti vitae, odit necessitatibus dolores, laborum enim ut voluptatibus ducimus, officiis fuga nemo ipsum minima inventore, id totam maxime. Similique mollitia perspiciatis ullam asperiores a libero, officiis impedit facere officia sequi accusantium ducimus quis suscipit earum fugiat? Dolor nihil maxime suscipit cum quasi molestias sint totam, excepturi iure veritatis dolore corrupti minus reprehenderit, numquam optio velit quas nisi quia consequuntur enim possimus sapiente. Iusto dolor expedita dolorem eveniet quo? Possimus magnam laudantium odit magni ipsa velit, vitae, aperiam expedita, ratione quas fugiat. Eius iusto deleniti eveniet magni omnis hic ipsum, recusandae, nihil!</div>
+		<div class="camps">
+
+			{{#each camps}}
+			<form method="POST" action="/camp-page">
+			<div class="card camp-card" style="width: 25rem;">
+ 	 			<img src="{{this.img_path}}" class="card-img-top" alt="...">
+  				<div class="card-body">
+					<input name="camp_id" value="{{this.id}}" style="display:none;">
+    				<h5 class="card-title">{{this.name}}</h5>
+    				<p class="card-text">{{this.description}}</p>
+    				<div class="city">Город: {{this.city}}</div>
+    				<div class="price">Цена: {{this.price}}руб.</div>
+					<button type="submit" class="btn btn-anim" style="margin-right:15px; margin-top:15px;">Подробнее</button>
+    				<div class="btn btn-anim" style="margin-top:15px;">Купить путёвку</div>
+  				</div>
+			</div>
+			</form>
+			{{/each}}
+		</div>
+
+	</div>
+	<!--Footer-->
+	<div class="footer">
+			<div class="logo footerLogo"><a href="/"><img src="img/logo.svg" alt="logo" style="width: auto; height: 40px;"></a></div>
+			<div class="copyright">© 2021 Copyright. Ne pizdit’.</div>
+		</div>
+</body>
+</html>

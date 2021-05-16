@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Контакты</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--SVG-->
+	<svg  xmlns:svg="https://www.w3.org/TR/2018/CR-SVG2-20181004/" xmlns="https://www.w3.org/TR/2018/CR-SVG2-20181004/" height='100' width='100' viewBox='0 0 100 100'></svg>
+	
+	<!--Scripts-->
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/search.js"></script>
+	
+	<!--Bootstrap-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+	
+	<!--Links-->
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/about.css">		
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+</head>
+<body>
+	<div class="header">
+		<div class="logo"><a href="/"><img src="img/logo.svg" alt="logo" style="width: auto; height: 40px;"></a></div>
+		<div class="menu">
+			<a class="menuitem" href="/about">О нас</a>
+			<a href="/choose-camp" class="menuitem">Выбрать лагерь</a>
+			<a href="#" class="menuitem">Отзывы о лагерях</a>
+			<a href="/contacts" class="menuitem">Контакты</a>
+		</div>
+		<form class="d-flex">
+        	<input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
+        	<button class="btn btn-anim" type="submit">Найти лагерь</button>
+      	</form>
+	</div>
+	<!--Content-->
+		
+	<div class="content">
+		<div class="pageTitle">Контактная информация</div>
+		<div class="about">
+			Главный офис расположен по адресу: Русская ул., 33 Новосибирск, Новосибирская обл., 630058<br>
+			<img src="img/phoneIcon.svg"> +7(913)-546-82-40 <br>
+			<img src="img/mailIcon.svg" height="34px"> dolphin@yandex.ru <br>
+			 
+		</div>
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2354.1323603629507!2d83.05268618222782!3d54.84578833104858!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42dfc49f02fab9b5%3A0x18407a01bc1c4053!2z0KPRgtC40L3QsNGPINCX0LDQstC-0LTRjA!5e1!3m2!1sru!2sru!4v1618131472097!5m2!1sru!2sru"
+		 width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+		<div class="	">
+			<div class="contact-text">Также вы можете оставить нам свои контактные данные, нажав на кнопку ниже и мы перезвоним вам в течение 15 минут. </div>
+			<button type="button" class="btn btn-anim" data-bs-toggle="modal" data-bs-target="#exampleModal">Позвоните мне</button>
+		</div>
+	</div>
+	<!--Modals-->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  		<div class="modal-dialog">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<h5 class="modal-title" id="exampleModalLabel">Заказ звонка</h5>
+        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      			</div>
+      			<form>
+      				<div class="modal-body">
+        			<input class="form-control" type="text" placeholder="Ваше имя" name="name" required><br>
+        			<input class="form-control" type="text" placeholder="Ваш номер телефона" name="phoneNumber" required="">
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Закрыть</button>
+        				<button type="submit" class="btn" style="background-color:#e4336a;" >Заказать звонок</button>
+      				</div>
+      			</form>
+    		</div>
+  		</div>
+	</div>
+	</div>
+
+	<div class="footer">
+			<div class="logo footerLogo"><a href="/"><img src="img/logo.svg" alt="logo" style="width: auto; height: 40px;"></a></div>
+			<div class="copyright">© 2021 Copyright. Ne pizdit’.</div>
+		</div>
+</body>
+</html>

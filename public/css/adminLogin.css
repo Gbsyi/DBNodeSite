@@ -1,0 +1,33 @@
+body{
+    background-color: steelblue;
+    justify-content: center;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    font-family: "Montserrat" !important;
+}
+.panel{
+    width: 400px;
+    background-color: #fff;
+    margin: auto;
+    text-align: center;
+    border-radius: 1rem;
+}
+.form-header{
+    padding: 1rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+.form-content{
+    padding: 1rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+.form-footer{
+    padding: 1rem;
+}
+.logo{
+    position: absolute;
+    left: calc(50% - 52.466px);
+    top:20%;
+}

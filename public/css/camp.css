@@ -1,0 +1,16 @@
+.camps{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content:space-around;
+}
+.icon{
+	width: 100px;
+	height: 100px;
+	background-color: #f0f;
+	margin-right: 20px;
+}
+
+.camp-card{
+	margin-bottom:  30px;
+	z-index: 0;
+}
