@@ -16,8 +16,10 @@
 	
     <link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet"> 
 	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
 	<link rel="stylesheet" type="text/css" href="/administrator/css/admin.css">
+	<link rel="stylesheet" type="text/css" href="/administrator/css/mainpage.css">
 	
  
 </head>
@@ -78,6 +80,47 @@
 				<li><a class="dropdown-item" href="/administratorLogin">Сменить пользователя</a></li>
 				<li><a class="dropdown-item" href="#">Сменить пароль</a></li>
 			</ul>
+		</div>
+	</div>
+	<div class="right-panel">
+		<div class="panel">
+			<div class="title">Добро пожаловать</div>
+			<ul class="tips">
+				<li class="tip"><span style="font-weight: 500;">Новых отзывов:</span>  {{newReviews}}</li>
+			</ul>
+		</div>
+		<div class="panel" style="width: 65%; padding:1rem;" >
+			<div class="title" style="margin:0.1rem;">Новый лагерь</div>
+			<hr>
+			<form action="/administrator/new-camp" method="POST" class="row g-3"> 
+				<div class="col-md-6">
+					<label for="name" class="form-label">Название лагеря</label>
+					<input type="text" id="name" class="form-control">
+				</div>
+				<div class="col-md-4">
+					<label for="city" class="form-label">Город</label>
+					<input type="text" id="city" class="form-control">
+				</div>	
+				<div class="col-md-2">
+					<label for="price" class="form-label">Цена</label>
+					<input type="text" id="price" class="form-control">
+				</div>
+				<div class="col-12">
+					<label for="description-long" class="form-label">Описание</label>
+					<input type="textarea" id="description-long" class="form-control">
+				</div>
+				<div class="col-12">
+					<label for="description">Краткое описание</label>
+					<input type="text" id="description" class="form-control">
+				</div>
+				<div class="col-12">
+					<label for="image" class="form-label">Изображение</label>
+					<input type="file" id="image" class="form-control" name="picture">
+				</div>
+				<div class="col-4">
+					<button type="submit" id="btn" class="btn btn-primary">Добавить</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </body>

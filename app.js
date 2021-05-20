@@ -94,14 +94,25 @@ app.get("/administrator", function(req,res){
     userLogin = req.signedCookies['login'];
     userPassword = req.signedCookies['password'];
     if(userId != undefined){
-        pool.query("select * from users where id=?",[userId],function(err,data){
-            if(userLogin == data[0].user_login && userPassword == data[0].user_password){
-                res.render("adminPanel/administratorMenu.hbs",{
-                    user_id: userId,
-                    user_login: userLogin,
-                    user_password: userPassword
+        pool.query("select * from users where id=?",[userId],function(err,loginData){
+            let isLogged = false;
+            if(userLogin == loginData[0].user_login && userPassword == loginData[0].user_password){
+                isLogged = true;
+            }
+            if(isLogged){
+                let newRevs = 0;
+                pool.query("SELECT COUNT(*) AS 'count' FROM reviews WHERE published = 0", function(err,count){
+                    newRevs = count[0].count;
+                    res.render("adminPanel/administratorMenu.hbs",{
+                        user_id: userId,
+                        user_login: userLogin,
+                        user_password: userPassword,
+                        newReviews: newRevs
+                    });
                 });
                 
+            }else{
+                res.redirect("/administratorLogin");
             }
         });
     }
@@ -153,6 +164,12 @@ app.post("/administratorLogin", urlencodedParser, function(req,res){
         }
     });
     
+});
+
+//Добавление лагеря
+app.post("/administrator/new-camp", urlencodedParser, function(req,res){
+    console.log(req.body.picture)
+    res.redirect('/administrator');
 });
 
 //USERS
