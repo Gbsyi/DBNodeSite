@@ -93,7 +93,7 @@ app.get("/contacts", function(req,res){
     res.render("contacts.hbs");
    
 });
-app.post("/camp-page", urlencodedParser, function(req,res) {
+/*app.post("/camp-page", urlencodedParser, function(req,res) {
    if(!req.body) return res.sendStatus(400);
    const camp_id = req.body.camp_id;        
    pool.query("SELECT * FROM camps WHERE id=?",[camp_id], function(err,data){
@@ -102,21 +102,26 @@ app.post("/camp-page", urlencodedParser, function(req,res) {
            result: data
        });
    });
-});
-/*
+});*/
+
 app.get('/camp/:camp_id', function(req,res){
-    camp_id = req.body.camp_id;
-    pool.query("SELECT * FROM camps WHERE id=?",[camp_id], function(err,data){
+    let camp_id = req.params;
+    console.log(camp_id.camp_id);
+    pool.query("SELECT * FROM camps WHERE id=?",[camp_id.camp_id], function(err,data){
         if(err) return console.log(err.message);
+        if(data.length == 0){
+            res.render("404.hbs");
+            return;
+        }
         res.render("camp-page.hbs",{
             result: data
         });
     });
-});*/
-
+});
+/*
 app.get("/camp-page", function(req,res) {
    res.render("camp-page.hbs");
-});
+});*/
 
 
 //ADMIN
