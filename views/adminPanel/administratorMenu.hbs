@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet"> 
-	<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
 	<link rel="stylesheet" type="text/css" href="/administrator/css/admin.css">
 	<link rel="stylesheet" type="text/css" href="/administrator/css/mainpage.css">
 	
@@ -27,7 +27,7 @@
     <div class="left"></div>
     <div class="left-panel">
 		<div class="top">
-			<a href="/administrator"><img src="img/whiteLogo.svg" height="50px" style="" title="На главную"><br></a>
+			<a href="/administrator"><img src="/img/whiteLogo.svg" height="50px" style="" title="На главную"><br></a>
 		</div>
 		<div class="menu">
 			<a href="/administrator/camps">
@@ -92,26 +92,26 @@
 		<div class="panel" style="width: 65%; padding:1rem;" >
 			<div class="title" style="margin:0.1rem;">Новый лагерь</div>
 			<hr>
-			<form action="/administrator/new-camp" method="POST" class="row g-3"> 
+			<form action="/administrator/new-camp" method="POST" class="row g-3" enctype="multipart/form-data"> 
 				<div class="col-md-6">
 					<label for="name" class="form-label">Название лагеря</label>
-					<input type="text" id="name" class="form-control">
+					<input type="text" id="name" class="form-control" name="name">
 				</div>
 				<div class="col-md-4">
 					<label for="city" class="form-label">Город</label>
-					<input type="text" id="city" class="form-control">
+					<input type="text" id="city" class="form-control" name="city">
 				</div>	
 				<div class="col-md-2">
 					<label for="price" class="form-label">Цена</label>
-					<input type="text" id="price" class="form-control">
+					<input type="text" id="price" class="form-control" name="price">
 				</div>
 				<div class="col-12">
 					<label for="description-long" class="form-label">Описание</label>
-					<input type="textarea" id="description-long" class="form-control">
+					<input type="textarea" id="description-long" class="form-control" name="descriptionLong">
 				</div>
 				<div class="col-12">
 					<label for="description">Краткое описание</label>
-					<input type="text" id="description" class="form-control">
+					<input type="text" id="description" class="form-control" name="description">
 				</div>
 				<div class="col-12">
 					<label for="image" class="form-label">Изображение</label>

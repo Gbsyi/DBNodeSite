@@ -5,10 +5,15 @@ const { urlencoded } = require('express');
 const cookieParser = require("cookie-parser");
 const e = require('express');
 const { signedCookie } = require('cookie-parser');
+const fs = require('fs');
+//file
+let fileUpload = require('express-fileupload');
 const app = express();
 var path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser('secret'));
+//file
+app.use(fileUpload({}));
 
 const urlencodedParser = bodyParser.urlencoded({extended:false});
 const pool = mysql.createPool({
@@ -35,6 +40,24 @@ connection.connect(function(err) {
     }
 });
 
+function translit(text) {
+    return text.replace(/([а-яё])|([\s_-])|([^a-z\d])/gi,
+        function (all, ch, space, words, i) {
+            if (space || words) {
+                return space ? '-' : '';
+            }
+            var code = ch.charCodeAt(0),
+                index = code == 1025 || code == 1105 ? 0 :
+                    code > 1071 ? code - 1071 : code - 1039,
+                t = ['yo', 'a', 'b', 'v', 'g', 'd', 'e', 'zh',
+                    'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p',
+                    'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh',
+                    'shch', '', 'y', '', 'e', 'yu', 'ya'
+                ]; 
+            return t[index];
+        }
+    );
+}
 
 app.set("view engine", "hbs");
 
@@ -80,6 +103,17 @@ app.post("/camp-page", urlencodedParser, function(req,res) {
        });
    });
 });
+/*
+app.get('/camp/:camp_id', function(req,res){
+    camp_id = req.body.camp_id;
+    pool.query("SELECT * FROM camps WHERE id=?",[camp_id], function(err,data){
+        if(err) return console.log(err.message);
+        res.render("camp-page.hbs",{
+            result: data
+        });
+    });
+});*/
+
 app.get("/camp-page", function(req,res) {
    res.render("camp-page.hbs");
 });
@@ -168,8 +202,24 @@ app.post("/administratorLogin", urlencodedParser, function(req,res){
 
 //Добавление лагеря
 app.post("/administrator/new-camp", urlencodedParser, function(req,res){
-    console.log(req.body.picture)
-    res.redirect('/administrator');
+    let campEngName =translit(req.body.name);
+    let campName = req.body.name;
+    let pictureName = req.files.picture.name;
+    let city = req.body.city;
+    let descr = req.body.description;
+    let descrLong = req.body.descriptionLong;
+    let price = req.body.price;
+    if(!fs.existsSync('public/img/camps/'+campEngName)){
+        console.log('\nСоздаём');
+        fs.mkdirSync('public/img/camps/'+campEngName);
+    }
+    let imgPath ='public/img/camps/'+campEngName+'/'+pictureName;
+    req.files.picture.mv(imgPath);
+    pool.query("INSERT INTO `camps`(`name`, `img_path`, `description`, `description_long`, `city`, `price`)" 
+                + "VALUES ('"+campName+"','"+imgPath+"','"+descr+"','"+descrLong+"','"+city+"','"+price+"')",function(err,result){
+                    if(err) throw err;
+                    res.redirect('/administrator');
+                });
 });
 
 //USERS
