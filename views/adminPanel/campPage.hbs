@@ -16,11 +16,9 @@
 	
     <link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet"> 
 	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-	<link rel="stylesheet" type="text/css" href="/administrator/css/admin.css">
-	<link rel="stylesheet" type="text/css" href="/administrator/css/mainpage.css">
-	
+	<link rel="stylesheet" type="text/css" href="/css/admin.css">
+	<link rel="stylesheet" type="text/css" href="/css/adminCampPage.css">
  
 </head>
 <body>
@@ -82,70 +80,105 @@
 			</ul>
 		</div>
 	</div>
-	<div class="right-panel">
-		<div class="panel">
-			<div class="title">Добро пожаловать</div>
-			<ul class="tips">
-				<li class="tip"><span style="font-weight: 500;">Новых отзывов:</span>  {{newReviews}}</li>
-			</ul>
-		</div>
-		<div class="panel" style="width: 65%; padding:1rem;" >
-			<div class="title" style="margin:0.1rem;">Новый лагерь</div>
+    <div class="right-panel">
+        <div class="title"><h3>Редактирование лагеря</h3></div>
+        <div class="content">
+            <div class="panel" style=" padding:1rem  5rem;" >
 			<hr>
-			<form action="/administrator/new-camp" method="POST" class="row g-3" enctype="multipart/form-data"> 
+			<form action="/administrator/editCamp" method="POST" class="row g-3" enctype="multipart/form-data"> 
 				<div class="col-md-6">
 					<label for="name" class="form-label">Название лагеря</label>
-					<input type="text" id="name" class="form-control" name="name">
+					<input type="text" id="name" class="form-control" name="name" value="{{camp.name}}">
 				</div>
 				<div class="col-md-4">
 					<label for="city" class="form-label">Город</label>
-					<input type="text" id="city" class="form-control" name="city">
+					<input type="text" id="city" class="form-control" name="city" value="{{camp.city}}">
 				</div>	
 				<div class="col-md-2">
 					<label for="price" class="form-label">Цена</label>
-					<input type="text" id="price" class="form-control" name="price">
+					<input type="text" id="price" class="form-control" name="price" value="{{camp.price}}">
 				</div>
 				<div class="col-12">
 					<label for="description-long" class="form-label">Описание</label>
-					<input type="textarea" id="description-long" class="form-control" name="descriptionLong">
+					<input type="textarea" id="description-long" class="form-control" name="descriptionLong" value="{{camp.description}}">
 				</div>
 				<div class="col-12">
 					<label for="description">Краткое описание</label>
-					<input type="text" id="description" class="form-control" name="description">
+					<input type="text" id="description" class="form-control" name="description" value="{{camp.description_long}}">
 				</div>
-				<div class="col-12">
-					<label for="image" class="form-label">Изображение</label>
-					<input type="file" id="image" class="form-control" name="picture">
-				</div>
-				<div class="col-4">
-					<button type="submit" id="btn" class="btn btn-primary">Добавить</button>
+                <div class="col-12">
+                    <label for="image" class="form-label">Изображение</label>
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary"  data-bs-toggle="modal" data-bs-target="#picturesModal">Обзор...</button>
+                        <input type="text" id="image" class="form-control" value="{{camp.img_path}}" aria-describedby="button-select">
+                        <!--<input type="file" id="image" class="form-control" name="picture">-->
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <label for="picture" class="form-label">Предпросмотр</label>
+                    <img src="{{camp.img_path}}" id="picture" class="form-control picture" style="padding: 0;"  >
+                </div>
+				<div class="col-1">
+                    <label for="sub" class="form-label"> </label>
+					<button type="submit" id="btn" id="sub" class="btn btn-primary form-control">Сохранить</button>
 				</div>
 			</form>
 		</div>
-	</div>
-	<!-- Modal -->
-	<form action="/administrator/newPass" method="POST" >
-		<div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="changePassLabel" aria-hidden="true">
+        </div>
+        <!--Modal-->
+		<form action="/administrator/newPass">
+		<div class="modal fade" id="picturesModal" tabindex="-1" aria-labelledby="picturesLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="changePassLabel">Сменить пароль</h5>
+					<h5 class="modal-title" id="picturesLabel">Сменить пароль</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div style="padding: 0.5rem;">
-							<label for="oldPass">Старый пароль</label>
-							<input 	type="password" class="form-control inpt" name="oldPassword" id="oldPass" style="margin: 0.4rem;" required>
-							<label for="newPass">Новый пароль</label>
-							<input 	type="password" class="form-control inpt" name="newPassword" id="newPass" style="margin: 0.4rem;" required minlength="8">
+					<div style="padding: 0 0.5rem;" id="listBox">
+                        {{#each dirItems}}
+                        <button type="button" class="list-group-item list-group-item-action" id="dir{{@index}}" onClick="setSelected('dir{{@index}}')">{{this}}</button>
+                        {{/each}}
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-					<button type="submit" class="btn btn-primary">Добавить</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+					<button type="submit" class="btn btn-primary" data-bs-dismiss="modal" onclick="applyDir()">Добавить</button>
 				</div>
 				</div>
 			</div>
 		</div>
-	</form>
+	    </form>
+        <script>
+            let selectedId;
+            let listBox = document.getElementById('listBox');
+            
+            function setSelected(id){
+                let selected = document.getElementById(id);
+                if(selected.classList.contains('active')){
+                    selected.classList.remove('active');
+                    selectedId = undefined;
+                }
+                else
+                {   
+                    for(let i = 0; i < listBox.children.length; i++){
+                        if(listBox.children[i].classList.contains('active')){
+                            listBox.children[i].classList.remove('active');
+                        }
+                    }
+                    selected.classList.add('active');
+                    selectedId = id;
+                }
+            }
+            function applyDir(){
+                let inpt = document.getElementById('image');
+                let selected = document.getElementById(selectedId);
+                console.log('value: ' + selected.innerHTML);
+                inpt.value = 'public/img/camps/{{campTName}}/' + selected.innerHTML;
+                document.getElementById('picture').src = '/img/camps/{{campTName}}/' + selected.innerHTML;
+            }
+        </script>
+    </div>
+	
 </body>

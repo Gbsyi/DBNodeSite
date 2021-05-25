@@ -18,7 +18,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
 	<link rel="stylesheet" type="text/css" href="css/admin.css">
-	<link rel="stylesheet" type="text/css" href="css/camps.css">
+	<link rel="stylesheet" type="text/css" href="css/camp.css">
  
 </head>
 <body>
@@ -76,7 +76,7 @@
 				</a>
 			<ul class="dropdown-menu">
 				<li><a class="dropdown-item" href="/administratorLogin">Сменить пользователя</a></li>
-				<li><a class="dropdown-item" href="#">Сменить пароль</a></li>
+				<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePassModal">Сменить пароль</a></li>
 			</ul>
 		</div>
 	</div>
@@ -86,9 +86,10 @@
             {{#each camps}}
                 <div class="card" style="width: 22rem;">
 					<div class="card-img-top">
-						<div class="edit-btn">
+						<!--<div class="edit-btn">
 							<svg style="margin: auto;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-						</div>
+						</div>-->
+
 						<img src="{{this.img_path}}" class="card-img-top" alt="...">
 					</div>
                     
@@ -99,10 +100,37 @@
     				    <p class="card-text"><span style="font-weight: 600;">Описание:</span> {{this.description}}</p>
     				    <div class="city"><span style="font-weight: 600;">Город:</span> {{this.city}}</div>
     				    <div class="price"><span style="font-weight: 600;">Цена:</span> {{this.price}}руб.</div>
-  					</div>	
+						<a href="/administrator/camp/{{this.id}}"><button class="btn btn-primary" style="margin: 5px 0;">Редактировать</button></a>
+					</div>	
                 </div>
             {{/each}}
         </div>
         <div class="options"></div>
+		
     </div>
+	<!-- Modal -->
+	<form action="/administrator/newPass" method="POST" >
+		<div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="changePassLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="changePassLabel">Сменить пароль</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div style="padding: 0.5rem;">
+							<label for="oldPass">Старый пароль</label>
+							<input 	type="password" class="form-control inpt" name="oldPassword" id="oldPass" style="margin: 0.4rem;" required>
+							<label for="newPass">Новый пароль</label>
+							<input 	type="password" class="form-control inpt" name="newPassword" id="newPass" style="margin: 0.4rem;" required minlength="8">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+					<button type="submit" class="btn btn-primary">Добавить</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</form>
 </body>

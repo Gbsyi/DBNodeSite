@@ -77,7 +77,7 @@
 				</a>
 			<ul class="dropdown-menu">
 				<li><a class="dropdown-item" href="/administratorLogin">Сменить пользователя</a></li>
-				<li><a class="dropdown-item" href="#">Сменить пароль</a></li>
+				<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePassModal">Сменить пароль</a></li>
 			</ul>
 		</div>
 	</div>
@@ -134,6 +134,31 @@
 							<input 	type="login" class="form-control inpt" name="newUserLogin" id="username" style="margin: 0.4rem;" required minlength="4">
 							<label for="password">Пароль</label>
 							<input 	type="password" class="form-control inpt" name="newUserPassword" id="password" style="margin: 0.4rem;" required minlength="8">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+					<button type="submit" class="btn btn-primary">Добавить</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- Modal -->
+	<form action="/administrator/newPass" method="POST" >
+		<div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="changePassLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="changePassLabel">Сменить пароль</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div style="padding: 0.5rem;">
+							<label for="oldPass">Старый пароль</label>
+							<input 	type="password" class="form-control inpt" name="oldPassword" id="oldPass" style="margin: 0.4rem;" required>
+							<label for="newPass">Новый пароль</label>
+							<input 	type="password" class="form-control inpt" name="newPassword" id="newPass" style="margin: 0.4rem;" required minlength="8">
 					</div>
 				</div>
 				<div class="modal-footer">

@@ -93,20 +93,9 @@ app.get("/contacts", function(req,res){
     res.render("contacts.hbs");
    
 });
-/*app.post("/camp-page", urlencodedParser, function(req,res) {
-   if(!req.body) return res.sendStatus(400);
-   const camp_id = req.body.camp_id;        
-   pool.query("SELECT * FROM camps WHERE id=?",[camp_id], function(err,data){
-       if(err) return console.log(err.message);
-       res.render("camp-page.hbs",{
-           result: data
-       });
-   });
-});*/
 
 app.get('/camp/:camp_id', function(req,res){
     let camp_id = req.params;
-    console.log(camp_id.camp_id);
     pool.query("SELECT * FROM camps WHERE id=?",[camp_id.camp_id], function(err,data){
         if(err) return console.log(err.message);
         if(data.length == 0){
@@ -118,11 +107,6 @@ app.get('/camp/:camp_id', function(req,res){
         });
     });
 });
-/*
-app.get("/camp-page", function(req,res) {
-   res.render("camp-page.hbs");
-});*/
-
 
 //ADMIN
 app.get("/administratorLogin", function(req,res){
@@ -218,13 +202,33 @@ app.post("/administrator/new-camp", urlencodedParser, function(req,res){
         console.log('\nСоздаём');
         fs.mkdirSync('public/img/camps/'+campEngName);
     }
-    let imgPath ='public/img/camps/'+campEngName+'/'+pictureName;
-    req.files.picture.mv(imgPath);
+    req.files.picture.mv('public/img/camps/'+campEngName+'/'+pictureName);
+    let imgPath ='/img/camps/'+campEngName+'/'+pictureName;
     pool.query("INSERT INTO `camps`(`name`, `img_path`, `description`, `description_long`, `city`, `price`)" 
                 + "VALUES ('"+campName+"','"+imgPath+"','"+descr+"','"+descrLong+"','"+city+"','"+price+"')",function(err,result){
                     if(err) throw err;
                     res.redirect('/administrator');
                 });
+});
+
+//Смена пароля
+app.post('/administrator/newPass', urlencodedParser, function(req,res){
+    oldPass = req.body.oldPassword;
+    newPass = req.body.newPassword;
+    userId = req.signedCookies['userId'];
+    userPassword = req.signedCookies['password'];
+    console.log(oldPass, "?", userPassword)
+    if(oldPass == userPassword){
+        pool.query("UPDATE users SET user_password = '"+newPass+"' WHERE users.id = "+userId,function(err,result){
+            if(err) throw err;
+            console.log("Пароль сменён");
+            res.cookie('password',newPass,{
+                secure:true,
+                signed:true
+            })
+            res.redirect(req.headers.referer);
+        });
+    }
 });
 
 //USERS
@@ -289,6 +293,51 @@ app.get('/administrator/camps',function(req,res){
     {
         res.redirect("/administratorLogin");
     }
+});
+//EDIT CAMP
+app.get('/administrator/camp/:camp_id', function(req,res){
+    let camp_id = req.params;
+    userId = req.signedCookies['userId'];
+    userLogin = req.signedCookies['login'];
+    userPassword = req.signedCookies['password'];
+    if(userId != undefined){
+        pool.query("select * from users where id=?",[userId],function(err,loginData){
+            let isLogged = false;
+            if(userLogin == loginData[0].user_login && userPassword == loginData[0].user_password){
+                isLogged = true;
+            }
+            if(isLogged){
+                pool.query("select * from camps where id=?",[camp_id.camp_id],function(err,data){
+                    if(err) return console.log(err.message);
+                    let dir = 'public/img/camps/' + translit(data[0].name);
+                    fs.readdir(dir,function(err,items){
+                        if(err) return console.log(err.message);
+                        res.render('adminPanel/campPage.hbs',{
+                            user_login: userLogin,
+                            camp:data[0],
+                            dirItems: items,
+                            campTName:translit(data[0].name)
+                        });
+                    });
+                    
+                });
+                
+            }else{
+                res.redirect("/administratorLogin");
+            }
+        });
+    }
+});
+
+app.post('/administrator/editCamp',urlencodedParser, function(req,res){
+    let campEngName =translit(req.body.name);
+    let campName = req.body.name;
+    let pictureName = req.files.picture.name;
+    let city = req.body.city;
+    let descr = req.body.description;
+    let descrLong = req.body.descriptionLong;
+    let price = req.body.price;
+    pool.query("")
 });
 //LISTEN
 app.listen(8080, function() {
