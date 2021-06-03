@@ -6,6 +6,7 @@
 }
 
 
+
 .btn-anim:hover{
   color: #FFFFFF;
 }
@@ -36,7 +37,7 @@
 }
 .content{
     display: flex;
-    flex-direction: ro;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 }

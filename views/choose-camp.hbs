@@ -60,7 +60,7 @@
     				<div class="city">Город: {{this.city}}</div>
     				<div class="price">Цена: {{this.price}}руб.</div>
 					<button type="submit" class="btn btn-anim" style="margin-right:15px; margin-top:15px;">Подробнее</button>
-    				<div class="btn btn-anim" style="margin-top:15px;">Купить путёвку</div>
+    				<div class="btn btn-anim" style="margin-top:15px;" data-bs-toggle="modal" data-bs-target="#bookingModal" onclick="loadModal('{{this.name}}')">Купить путёвку</div>
   				</div>
 			</div>
 			</form>
@@ -68,10 +68,72 @@
 		</div>
 
 	</div>
+	<!-- Modal -->
+	<form action="/new-booking" method="POST" >
+		<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="bookingModalLabel">Покука путёвки</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div style="padding: 0.5rem;">
+							<div class="modal-title" id="title">Лагерь: </div>
+							<label for="surname">Фамилия ребёнка <span style="color: red;">*</span></label>
+							<input 	type="text" class="form-control inpt" name="surname" id="surname" style="margin: 0.4rem;" required minlength="2">
+							<label for="name">Имя ребёнка <span style="color: red;">*</span></label>
+							<input 	type="text" class="form-control inpt" name="name" id="name" style="margin: 0.4rem;" required minlength="2">
+							<label for="fathersName">Отчество ребёнка</label>
+							<input 	type="text" class="form-control inpt" name="fathersName" id="fathersName" style="margin: 0.4rem;">
+							<label for="document">Свидетельство о рождении / Паспорт <span style="color: red;">*</span></label>
+							<input 	type="text" class="form-control inpt" name="document" id="document" style="margin: 0.4rem;">
+							<label for="birthday">День рождения <span style="color: red;">*</span></label>
+							<input 	type="date" class="form-control inpt" name="birthday" id="birthday" style="margin: 0.4rem;">
+							<label for="contact-way">Способ связи <span style="color: red;">*</span><br></label>
+							<select id="contact-way" class="form-select" name="contactWay" onchange="selectionChanged();">
+								<option>Телефон</option>
+								<option>E-mail</option>
+								<option>Письмо</option>
+							</select>
+							<label for="contact"><span id="contactLabel">Контактная информация</span> <span style="color: red;">*</span></label>
+							<input 	type="text" class="form-control inpt" name="contact" id="contact" style="margin: 0.4rem;">
+							<div id="seasons">
+								{{#each seasons}}
+									
+								{{/each}}
+							</div>
+							
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+					<button type="submit" class="btn btn-primary">Добавить</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</form>
 	<!--Footer-->
 	<div class="footer">
 			<div class="logo footerLogo"><a href="/"><img src="img/logo.svg" alt="logo" style="width: auto; height: 40px;"></a></div>
 			<div class="copyright">© 2021 Copyright. Ne pizdit’.</div>
 		</div>
+		<script>
+			let contactWay = new Map()	
+			contactWay = new Map([
+				['Телефон','Номер телефона'],
+				['E-mail', 'E-mail'],
+				['Письмо', 'Адрес']]
+			)
+			function selectionChanged(){
+				document.getElementById('contactLabel').innerHTML = contactWay.get(document.getElementById('contact-way').value);
+				console.log(contactWay[document.getElementById('contact-way').value]);
+				console.log(document.getElementById('contact-way').value);
+			}
+			function loadModal(campName){
+				document.getElementById('title').innerHTML = 'Лагерь: ' + campName;
+			}
+		</script>
 </body>
 </html>

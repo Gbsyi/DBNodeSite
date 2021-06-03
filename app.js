@@ -307,19 +307,24 @@ app.get('/administrator/camp/:camp_id', function(req,res){
                 isLogged = true;
             }
             if(isLogged){
-                pool.query("select * from camps where id=?",[camp_id.camp_id],function(err,data){
-                    if(err) return console.log(err.message);
-                    let dir = 'public/img/camps/' + translit(data[0].name);
-                    fs.readdir(dir,function(err,items){
+                let year = new Date();
+                pool.query("select * from seasons where year =?",[year.getFullYear], function(err,seasons){
+                    pool.query("select * from camps where id=?",[camp_id.camp_id],function(err,data){
                         if(err) return console.log(err.message);
-                        res.render('adminPanel/campPage.hbs',{
-                            user_login: userLogin,
-                            camp:data[0],
-                            dirItems: items,
-                            campTName:translit(data[0].name)
+                        let dir = 'public/img/camps/' + translit(data[0].name);
+                        fs.readdir(dir,function(err,items){
+                            if(err) return console.log(err.message);
+                            res.render('adminPanel/campPage.hbs',{
+                                user_login: userLogin,
+                                camp:data[0],
+                                dirItems: items,
+                                campTName:translit(data[0].name),
+                                campID: camp_id.camp_id,
+                                seasons: seasons
+                            });
                         });
-                    });
-                    
+                        
+                    });  
                 });
                 
             }else{
@@ -332,13 +337,26 @@ app.get('/administrator/camp/:camp_id', function(req,res){
 app.post('/administrator/editCamp',urlencodedParser, function(req,res){
     let campEngName =translit(req.body.name);
     let campName = req.body.name;
-    let pictureName = req.files.picture.name;
     let city = req.body.city;
     let descr = req.body.description;
     let descrLong = req.body.descriptionLong;
     let price = req.body.price;
-    pool.query("")
+    let campID = req.body.campID;
+    let imgPath = req.body.imgPath;
+    pool.query("UPDATE `camps` SET `name` = '" + campName
+                + "', `img_path` = '"+ imgPath
+                + "', `description` = '" + descr
+                + "', `description_long` = '" + descrLong
+                + "', `city` = '" + city
+                + "', `price` = '" + price
+                + "' WHERE `camps`.`id` =" + campID, function(err,result){
+                    if(err) return console.log(err.message);
+                    res.redirect(req.headers.referer);
+                });
 });
+app.post('/new-booking', urlencodedParser, async function(req,res){
+    let 
+})
 //LISTEN
 app.listen(8080, function() {
     console.log("Сервер запущен.");
