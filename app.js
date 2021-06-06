@@ -82,12 +82,17 @@ app.get("/about", function(req,res){
     res.render("about.hbs");
 });
 app.get("/choose-camp", function(req,res){
-    pool.query("SELECT * FROM camps", function(err, data) {
-        if(err) return console.log(err);
-        res.render("choose-camp.hbs", {
-            camps: data
+    let year = new Date();
+    pool.query("select * from seasons where year =?",[year.getFullYear()], function(err,seasons){
+        if (err) return console.log(err.message);
+        pool.query("SELECT * FROM camps", function(err, data) {
+            if(err) return console.log(err);
+            res.render("choose-camp.hbs", {
+                camps: data,
+                seasons: seasons
+            });
         });
-      });
+    });
 });
 app.get("/contacts", function(req,res){
     res.render("contacts.hbs");
@@ -308,7 +313,7 @@ app.get('/administrator/camp/:camp_id', function(req,res){
             }
             if(isLogged){
                 let year = new Date();
-                pool.query("select * from seasons where year =?",[year.getFullYear], function(err,seasons){
+                
                     pool.query("select * from camps where id=?",[camp_id.camp_id],function(err,data){
                         if(err) return console.log(err.message);
                         let dir = 'public/img/camps/' + translit(data[0].name);
@@ -320,12 +325,11 @@ app.get('/administrator/camp/:camp_id', function(req,res){
                                 dirItems: items,
                                 campTName:translit(data[0].name),
                                 campID: camp_id.camp_id,
-                                seasons: seasons
                             });
                         });
                         
                     });  
-                });
+            
                 
             }else{
                 res.redirect("/administratorLogin");
@@ -355,7 +359,7 @@ app.post('/administrator/editCamp',urlencodedParser, function(req,res){
                 });
 });
 app.post('/new-booking', urlencodedParser, async function(req,res){
-    let 
+    
 })
 //LISTEN
 app.listen(8080, function() {

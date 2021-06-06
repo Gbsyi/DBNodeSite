@@ -98,9 +98,10 @@
 							</select>
 							<label for="contact"><span id="contactLabel">Контактная информация</span> <span style="color: red;">*</span></label>
 							<input 	type="text" class="form-control inpt" name="contact" id="contact" style="margin: 0.4rem;">
+							<label for="seasons">Сезон <span style="color: red;">*</span><br></label>
 							<div id="seasons">
 								{{#each seasons}}
-									
+								<div class="btn btn-primary">{{this.name}}</div>	
 								{{/each}}
 							</div>
 							
@@ -133,6 +134,7 @@
 			}
 			function loadModal(campName){
 				document.getElementById('title').innerHTML = 'Лагерь: ' + campName;
+				
 			}
 		</script>
 </body>
