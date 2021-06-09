@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Панель управления</title>
+    <!--Meta-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--SVG-->
+
+    <!--Bootstrap-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <!--Links-->
+	
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet"> 
+	<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+	<link rel="stylesheet" type="text/css" href="/css/admin.css">
+	<link rel="stylesheet" type="text/css" href="/css/booking.css">
+ 
+</head>
+<body>
+    <div class="left"></div>
+    <div class="left-panel">
+		<div class="top">
+			<a href="/administrator"><img src="/img/whiteLogo.svg" height="50px" style="" title="На главную"><br></a>
+		</div>
+		<div class="menu">
+			<a href="/administrator/camps">
+			<div class="menuitem">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+  					<path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+  					<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+				</svg>
+				 Лагеря
+			</div>
+			</a>
+			<a href="/administrator/children">
+			<div class="menuitem">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+					<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+				</svg>
+				 Дети
+			</div>
+			</a>
+			<a href="/administrator/reviews">
+			<div class="menuitem">
+				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
+					<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+				</svg>
+				Отзывы
+			</div>
+			</a>
+			<a href="/administrator/booking">
+			<div class="menuitem">
+				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+				 Бронирование
+			</div>
+			</a>
+			<a href="/administrator/users">
+				<div class="menuitem">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+					 Пользователи
+				</div>
+			</a>
+			<a href="/">
+				<div class="menuitem" style="border-bottom: solid 1px rgba(255, 255, 255,0.5);">
+					<svg aria-hidden="true" focusable="false" width="24" height="24" data-prefix="fas" data-icon="angle-double-left" class="svg-inline--fa fa-angle-double-left fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M223.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L319.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L393.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34zm-192 34l136 136c9.4 9.4 24.6 9.4 33.9 0l22.6-22.6c9.4-9.4 9.4-24.6 0-33.9L127.9 256l96.4-96.4c9.4-9.4 9.4-24.6 0-33.9L201.7 103c-9.4-9.4-24.6-9.4-33.9 0l-136 136c-9.5 9.4-9.5 24.6-.1 34z"/></svg>
+					 Вернуться на сайт
+				</div>
+			</a>
+		</div>
+		<div class="empty"></div>
+		<div class="nav-item-dropdown">
+			<a class="nav-link dropdown-toggle user-link" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+					<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+					</svg>
+					{{user_login}}
+				</a>
+			<ul class="dropdown-menu">
+				<li><a class="dropdown-item" href="/administratorLogin">Сменить пользователя</a></li>
+				<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePassModal">Сменить пароль</a></li>
+			</ul>
+		</div>
+	</div>
+    
+	<div class="right-panel">
+        <div class="title"><h3>Бронирование</h3></div>
+        <div class="content row">
+            <div class="panel list-group col-2" id="camps">
+                <div class="panel-title">Список лагерей</div>
+                <form method="GET" action="/administrator/booking" id="campForm"></form>
+                    {{#each camps}}
+                        <label for="camp{{this.id}}" id="label{{this.id}}" class="list-group-item list-group-item-action" onclick="selectCamp(label{{this.id}},{{this.id}})">{{this.name}}</label><br>
+                        <input type="radio" name="campId" id="camp{{this.id}}" style="display: none;">
+                    {{/each}}
+                </form>
+            </div>
+			<script>
+				camps.children[camps.children.length-3].classList.add('last')
+			</script>
+            <div class="panel col-9">
+				<table class="table table-stripped table-hover">
+					<tr>
+						<th>#</th>
+						<th>Сезон</th>
+						<th>Фамилия</th>
+						<th>Имя</th>
+						<th>Отчество</th>
+						<th>Документ</th>
+						<th>День Рождения</th>
+						<th>Способ связи</th>
+						<th>Контактная информация</th>
+					</tr>
+					{{#each booking}}
+						<tr>
+                    		<td scope="row">{{this.id}}</td>
+							<td>{{this.season}}</td>
+							<td>{{this.surname}}</td>
+							<td>{{this.name}}</td>
+							<td>{{this.fathers_name}}</td>
+							<td>{{this.document}}</td>
+							<td>{{this.birthday}}</td>
+							<td>{{this.contact_way}}</td>
+							<td>{{this.contacts}}</td>
+                		</tr>
+					{{/each}}
+				</table>
+            </div>
+		</div>
+        <script>
+			function getCookie(name) {
+				const value = `; ${document.cookie}`;
+				const parts = value.split(`; ${name}=`);
+				if (parts.length === 2) return parts.pop().split(';').shift();	
+			}	
+			document.getElementById('label'+getCookie('camp')).classList.add('active');
+            function selectCamp(camp,id){
+                document.cookie ='camp='+id+';secure';
+                campForm.submit();
+            }
+    </script>
+	</div>
+	<!-- Modal -->
+	<form action="/administrator/newPass" method="POST" >
+		<div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="changePassLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="changePassLabel">Сменить пароль</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div style="padding: 0.5rem;">
+							<label for="oldPass">Старый пароль</label>
+							<input 	type="password" class="form-control inpt" name="oldPassword" id="oldPass" style="margin: 0.4rem;" required>
+							<label for="newPass">Новый пароль</label>
+							<input 	type="password" class="form-control inpt" name="newPassword" id="newPass" style="margin: 0.4rem;" required minlength="8">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+					<button type="submit" class="btn btn-primary">Добавить</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>

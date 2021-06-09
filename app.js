@@ -1,11 +1,12 @@
 const mysql = require('mysql2');
 const express = require("express");
 const bodyParser = require("body-parser");
-const { urlencoded } = require('express');
+const { urlencoded, response } = require('express');
 const cookieParser = require("cookie-parser");
 const e = require('express');
 const { signedCookie } = require('cookie-parser');
 const fs = require('fs');
+const mysqlPromise = require('mysql2/promise')
 //file
 let fileUpload = require('express-fileupload');
 const app = express();
@@ -23,7 +24,13 @@ const pool = mysql.createPool({
     database: "Lager",
     password: "mysql"
 });
-
+const poolAsync = mysqlPromise.createPool({
+    connectionLimit: 5,
+    host: "localhost",
+    user: "mysql",
+    database: "Lager",
+    password: "mysql"
+})
 const connection = mysql.createConnection({
     host: "localhost",
     user: "mysql",
@@ -324,7 +331,7 @@ app.get('/administrator/camp/:camp_id', function(req,res){
                                 camp:data[0],
                                 dirItems: items,
                                 campTName:translit(data[0].name),
-                                campID: camp_id.camp_id,
+                                campID: camp_id.camp_id
                             });
                         });
                         
@@ -358,9 +365,207 @@ app.post('/administrator/editCamp',urlencodedParser, function(req,res){
                     res.redirect(req.headers.referer);
                 });
 });
+
+//BOOKING
+app.get('/administrator/booking', async function(req,res){
+    let nothing;
+    userLogin = req.signedCookies['login'];
+    aunteficate = new Promise((resolve,reject) =>{
+            userId = req.signedCookies['userId'];
+            userLogin = req.signedCookies['login'];
+            userPassword = req.signedCookies['password'];pool.query("select * from users where id=?",[userId],function(err,loginData){
+            if(err) {
+                console.log(err.message);
+                resolve(false);
+            }
+            try{
+                if(userLogin == loginData[0].user_login && userPassword == loginData[0].user_password){
+                    resolve(true);
+                }
+            }
+            catch(e){
+                if(e instanceof TypeError){
+                    resolve(false)
+                }
+            }
+            resolve(false)
+        });
+    });  
+    let result = await aunteficate;
+    if(result){
+        //Выводим лагеря
+        campsList = await new Promise((resolve,reject) =>{
+            pool.query("select `name`, `id` from camps", function(err,data){
+                if(err){
+                    console.log(err.message)
+                    res.render('adminPanel/bookingPage.hbs',{
+                        user_login: userLogin
+                    });
+                    resolve(null);
+                }
+                resolve(data);
+            });
+        })
+        if(campsList == null){
+            return res.render('adminPanel/bookingPage.hbs', {
+                user_login: userLogin,
+                camps:campsList
+            });
+        }
+        //Берём выбранный лагерь
+        let campId = req.cookies['camp'];
+        if(campId){
+            bookingList = await new Promise((resolve,reject) => {
+                pool.query("SELECT booking.id, seasons.name as `season`, children.surname, children.name, children.fathers_name, children.document,"+
+                    "DATE_FORMAT(children.birthday,'%d.%m.%Y') as `birthday`, children.contact_way,children.contacts FROM booking INNER JOIN seasons ON seasons.id = seasons_id " 
+                    +"INNER JOIN children ON children.id = children_id WHERE camps_id="+campId+" order by seasons.id", function(err,data){
+                    if(err){
+                        console.log(err.message);
+                        res.render('adminPanel/bookingPage.hbs',{
+                            user_login: userLogin,
+                            camps:campsList
+                        });
+                        resolve(null);
+                    }
+                    resolve(data);
+                });
+            });
+            if(bookingList != null){
+                res.render('adminPanel/bookingPage.hbs',{
+                    user_login: userLogin,
+                    camps:campsList,
+                    booking: bookingList
+                })
+            }else{
+                res.render('adminPanel/bookingPage.hbs',{
+                    user_login: userLogin,
+                    camps:campsList
+                });
+            }
+        }
+        else{
+            res.render('adminPanel/bookingPage.hbs',{
+                user_login: userLogin,
+                camps:campsList
+            });
+        }
+    }
+    else{
+        res.redirect('/administratorLogin');
+    }
+});
 app.post('/new-booking', urlencodedParser, async function(req,res){
-    
+    let birthday = req.body.birthday;
+    let contact = req.body.contact;
+    let contactWay = req.body.contactWay;
+    let document = req.body.document;
+    let surname = req.body.surname;
+    let name = req.body.name;
+    let fathersName = req.body.fathersName;
+    let campId = req.body.campId;
+    let season = req.body.season;
+    let childId;
+    await poolAsync.query("INSERT INTO `children`(`surname`, `name`, `fathers_name`, `document`, `birthday`, `contacts`, `contact_way`)"+
+                     " VALUES (?,?,?,?,?,?,?)",[surname,name,fathersName,document,birthday,contact,contactWay]).then(result => childId =result[0].insertId ).catch(err => {
+                         console.log(err.message);
+                         return;    
+                     });
+    await poolAsync.query('INSERT INTO `booking`(`camps_id`, `seasons_id`, `children_id`) VALUES (?,?,?)',[campId,season, childId]).catch(err => {
+        console.log(err.message);
+        return;
+    });
+    res.redirect('/choose-camp?result=true');
 })
+app.post('/deny-review', urlencodedParser, async function(req,res){
+    let reviewId = req.body.reviewId;
+    pool.query('DELETE FROM `reviews` WHERE id = ?',[reviewId], function(err,data){
+        if(err){
+            console.log(err.message);
+            res.redirect('/administrator/reviews');
+        }
+    });
+    res.redirect('/administrator/reviews')
+});
+app.post('/apply-review',urlencodedParser, async function(req,res){
+    let reviewId = req.body.reviewId;
+    pool.query("UPDATE `reviews` SET `published` = '1' WHERE id = ? ",[reviewId],function(err,result){
+        if(err){
+            console.log(err.message);
+            res.redirect('/administrator/reviews');
+        }
+    });
+    res.redirect('/administrator/reviews');
+});
+//REVIEWS
+app.get('/administrator/reviews', async function(req,res){
+    let nothing;
+    userLogin = req.signedCookies['login'];
+    let aunteficate = await new Promise((resolve,reject) =>{
+        userId = req.signedCookies['userId'];
+        userLogin = req.signedCookies['login'];
+        userPassword = req.signedCookies['password'];pool.query("select * from users where id=?",[userId],function(err,loginData){
+        if(err) {
+            console.log(err.message);
+            resolve(false);
+        }
+        try{
+            if(userLogin == loginData[0].user_login && userPassword == loginData[0].user_password){
+                return resolve(true);
+                
+            }
+        }
+        catch(e){
+            if(e instanceof TypeError){
+                resolve(false)
+            }
+        }
+        resolve(false)
+        }); 
+    });
+    if(aunteficate){
+        let unpublishedReviews = await new Promise((resolve,reject) => {
+            pool.query('select * from reviews where published = 0',function(err,data){
+                if(err){
+                    console.log(err.message);
+                    return resolve(undefined);
+                }
+                return resolve(data);
+            });
+        });
+        let publishedReviews = await new Promise((resolve,reject) =>{
+            pool.query('select * from reviews where published = 1',function(err,data){
+                if(err){
+                    console.log(err.message);
+                    return resolve(undefined);
+                }
+                return resolve(data);
+            });
+        })
+        if(unpublishedReviews != nothing){
+            if(publishedReviews != nothing){
+                res.render('adminPanel/reviews.hbs',{
+                    userLogin: userLogin,
+                    unpublishedReviews: unpublishedReviews,
+                    publishedReviews: publishedReviews
+                });
+            }
+            else{
+                res.render('adminPanel/reviews.hbs',{
+                    userLogin:userLogin,
+                    unpublishedReviews:unpublishedReviews
+                });
+            }
+        }else{
+            res.render('adminPanel/reviews.hbs',{
+                userlogin:userLogin 
+             });
+        }
+    }else{
+        res.redirect('/administratorLogin');
+    }
+});  
+
+
 //LISTEN
 app.listen(8080, function() {
     console.log("Сервер запущен.");

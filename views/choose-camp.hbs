@@ -7,9 +7,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<!--SVG-->
-	<svg  xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" height='100' width='100' viewBox='0 0 100 100'></svg>
-	
+
 	<!--Scripts-->
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/loadCamps.js"></script>
@@ -60,7 +58,8 @@
     				<div class="city">Город: {{this.city}}</div>
     				<div class="price">Цена: {{this.price}}руб.</div>
 					<button type="submit" class="btn btn-anim" style="margin-right:15px; margin-top:15px;">Подробнее</button>
-    				<div class="btn btn-anim" style="margin-top:15px;" data-bs-toggle="modal" data-bs-target="#bookingModal" onclick="loadModal('{{this.name}}')">Купить путёвку</div>
+				
+    				<div class="btn btn-anim" style="margin-top:15px;" data-bs-toggle="modal" data-bs-target="#bookingModal" onclick="loadModal('{{this.name}}');document.getElementById('campId').value = '{{this.id}}'">Купить путёвку</div>
   				</div>
 			</div>
 			</form>
@@ -101,14 +100,17 @@
 							<label for="seasons">Сезон <span style="color: red;">*</span><br></label>
 							<div id="seasons">
 								{{#each seasons}}
-								<div class="btn btn-primary">{{this.name}}</div>	
+									<label for="{{this.id}}" class="btn btn-primary btn-select" id="btn{{@index}}" onclick="activate('btn{{@index}}')">{{this.name}}</label>
+									<input type="radio" name="season" id="{{this.id}}" style="display:none" value="{{this.id}}">	
 								{{/each}}
 							</div>
+							<!--Hidden-->
+							<input type="hidden" name="campId" id="campId">
 							
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deactivate()">Отмена</button>
 					<button type="submit" class="btn btn-primary">Добавить</button>
 				</div>
 				</div>
@@ -117,10 +119,14 @@
 	</form>
 	<!--Footer-->
 	<div class="footer">
-			<div class="logo footerLogo"><a href="/"><img src="img/logo.svg" alt="logo" style="width: auto; height: 40px;"></a></div>
+			<div class="logo footerLogo"><a href="/"><img src="/img/logo.svg" alt="logo" style="width: auto; height: 40px;"></a></div>
 			<div class="copyright">© 2021 Copyright. Ne pizdit’.</div>
 		</div>
 		<script>
+			let params = new URLSearchParams(location.search);
+			if(params.get('result')){
+				alert('Вы успешно купили путёвку');
+			}
 			let contactWay = new Map()	
 			contactWay = new Map([
 				['Телефон','Номер телефона'],
@@ -134,7 +140,25 @@
 			}
 			function loadModal(campName){
 				document.getElementById('title').innerHTML = 'Лагерь: ' + campName;
-				
+			}
+			function activate(btn){
+				let but = document.getElementById(btn);
+				let btns = document.getElementById('seasons');
+				[...btns.children].forEach(el => {
+					el.classList.remove('active');
+				});
+				if(but.classList.contains('active')){
+					but.classList.remove('active');
+				}
+				else{
+					but.classList.add('active');
+				}
+			}
+			function deactivate(){
+				let btns = document.getElementById('seasons');
+				[...btns.children].forEach(el => {
+					el.classList.remove('active');
+				});
 			}
 		</script>
 </body>
