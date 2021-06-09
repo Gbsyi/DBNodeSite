@@ -101,6 +101,23 @@ app.get("/choose-camp", function(req,res){
         });
     });
 });
+app.post('/new-review',urlencodedParser, async (req,res) => {
+    let client = req.body.name;
+    let review = req.body.review;
+    poolAsync.query('INSERT INTO `reviews`(`client`, `review`, `published`) VALUES (?,?,0)',[client,review]);
+    res.redirect("/reviews?result=true");
+});
+app.get('/reviews',function(req,res){
+    pool.query('select * from reviews where published = 1',(err,data) =>{
+        if(err){
+            console.log(err.message);
+            return res.render('reviews.hbs');
+        }
+        res.render('reviews.hbs',{
+            reviews:data
+        });
+    });
+})
 app.get("/contacts", function(req,res){
     res.render("contacts.hbs");
    
@@ -544,20 +561,20 @@ app.get('/administrator/reviews', async function(req,res){
         if(unpublishedReviews != nothing){
             if(publishedReviews != nothing){
                 res.render('adminPanel/reviews.hbs',{
-                    userLogin: userLogin,
+                    user_login: userLogin,
                     unpublishedReviews: unpublishedReviews,
                     publishedReviews: publishedReviews
                 });
             }
             else{
                 res.render('adminPanel/reviews.hbs',{
-                    userLogin:userLogin,
+                    user_login:userLogin,
                     unpublishedReviews:unpublishedReviews
                 });
             }
         }else{
             res.render('adminPanel/reviews.hbs',{
-                userlogin:userLogin 
+                user_login:userLogin 
              });
         }
     }else{
@@ -565,6 +582,61 @@ app.get('/administrator/reviews', async function(req,res){
     }
 });  
 
+//CHILDREN
+app.get('/administrator/children',async (req,res) => {
+    let nothing;
+    userLogin = req.signedCookies['login'];
+    let aunteficate = await new Promise((resolve,reject) =>{
+        userId = req.signedCookies['userId'];
+        userLogin = req.signedCookies['login'];
+        userPassword = req.signedCookies['password'];pool.query("select * from users where id=?",[userId],function(err,loginData){
+        if(err) {
+            console.log(err.message);
+            resolve(false);
+        }
+        try{
+            if(userLogin == loginData[0].user_login && userPassword == loginData[0].user_password){
+                return resolve(true);
+                
+            }
+        }
+        catch(e){
+            if(e instanceof TypeError){
+                resolve(false)
+            }
+        }
+        resolve(false)
+        }); 
+    });
+    if(aunteficate){
+        let children = await new Promise((resolve,reject) => {
+            pool.query("SELECT `id`,`surname`,`name`,`fathers_name`,`document`,DATE_FORMAT(birthday,'%d.%m.%Y') as `birthday`,`contacts`,`contact_way` FROM `children`",(err,data)=>{
+                if(err){
+                    console.log(err.message);
+                    res.render('adminPanel/children.hbs',{
+                        user_login:userLogin
+                    });
+                    resolve(undefined);
+                }
+                resolve(data)
+            })
+        });
+        if(children != nothing){
+            res.render('adminPanel/children.hbs',{
+                user_login:userLogin,
+                children:children
+            })
+        }
+        else{
+            res.render('adminPanel/children.hbs',{
+                user_login:userLogin
+            });
+        }
+    }
+    else{
+        res.redirect('/administratorLogin');
+    }
+});
 
 //LISTEN
 app.listen(8080, function() {
